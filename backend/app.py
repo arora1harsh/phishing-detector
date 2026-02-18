@@ -52,6 +52,20 @@ def check_url():
         "phishing_probability": round(probability, 2)
     })
 
+@app.route("/feedback", methods=["POST"])
+def feedback():
+    data = request.json
+    url = data.get("url")
+    label = data.get("label")  # "safe" or "phishing"
+
+    if not url or not label:
+        return jsonify({"error": "Invalid input"}), 400
+
+    with open("feedback_log.csv", "a") as f:
+        f.write(f"{url},{label}\n")
+
+    return jsonify({"status": "Feedback recorded"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

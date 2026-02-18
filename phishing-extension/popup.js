@@ -29,6 +29,35 @@ chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       progress.style.backgroundColor = "#dc2626";
     }
 
+    // Feedback buttons
+    document.getElementById("markSafe").onclick = function() {
+      sendFeedback(currentUrl, "safe");
+    };
+
+    document.getElementById("markPhishing").onclick = function() {
+      sendFeedback(currentUrl, "phishing");
+    };
+
   });
 
 });
+
+
+function sendFeedback(url, label) {
+  fetch("http://localhost:5000/feedback", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ url: url, label: label })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("feedbackStatus").textContent =
+      "Feedback submitted";
+  })
+  .catch(err => {
+    document.getElementById("feedbackStatus").textContent =
+      "Error submitting feedback";
+  });
+}
