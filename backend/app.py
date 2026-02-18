@@ -29,29 +29,27 @@ def normalize_url(url):
 
 @app.route("/check-url", methods=["POST"])
 def check_url():
-    
     data = request.json
     url = data.get("url")
-
-    if not url:
-        return jsonify({"error": "No URL provided"}), 400
-
-    features = [extract_features(url)]
 
     normalized = normalize_url(url)
     url_vector = vectorizer.transform([normalized])
     prediction = model.predict(url_vector)[0]
-    probability = model.predict_proba(url_vector)[0][1]
+    features = [extract_features(url)]
 
+    probability = model.predict_proba(url_vector)[0][1] * 100
 
-    if prediction == 1:
-        verdict = "Phishing"
+    # Risk tiers
+    if probability >= 75:
+        risk_level = "High Risk"
+    elif probability >= 40:
+        risk_level = "Suspicious"
     else:
-        verdict = "Safe"
+        risk_level = "Low Risk"
 
     return jsonify({
-        "verdict": verdict,
-        "phishing_probability": round(probability * 100, 2)
+        "risk_level": risk_level,
+        "phishing_probability": round(probability, 2)
     })
 
 

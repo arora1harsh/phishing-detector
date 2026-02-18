@@ -54,28 +54,32 @@ function App() {
             <div className="w-full bg-gray-700 rounded-full h-6 overflow-hidden">
               <div
                 className={`h-6 transition-all duration-700 ${
-                  result.phishing_probability < 30
+                  result.phishing_probability < 40
                     ? "bg-green-500"
-                    : result.phishing_probability < 70
+                    : result.phishing_probability < 75
                     ? "bg-yellow-500"
                     : "bg-red-500"
                 }`}
                 style={{ width: `${result.phishing_probability}%` }}
               ></div>
+
             </div>
 
             <p className="text-xl font-bold text-center mt-4">
-              Verdict:
+              Risk Level:
               <span
                 className={
-                  result.verdict === "Safe"
+                  result.risk_level === "Low Risk"
                     ? "text-green-400 ml-2"
+                    : result.risk_level === "Suspicious"
+                    ? "text-yellow-400 ml-2"
                     : "text-red-400 ml-2"
                 }
               >
-                {result.verdict}
+                {result.risk_level}
               </span>
             </p>
+
           </div>
         )}
 
