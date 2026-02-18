@@ -1,7 +1,11 @@
 import re
 from urllib.parse import urlparse
+from normalize_url import normalize_url
+
 
 def extract_features(url):
+
+    url = normalize_url(url)
 
     # Ensure URL is string
     if not isinstance(url, str):
