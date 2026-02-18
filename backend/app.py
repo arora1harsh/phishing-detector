@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import re
 import joblib
+from feature_extractor import extract_features
+
 
 app = Flask(__name__)
 CORS(app)
@@ -9,18 +11,6 @@ CORS(app)
 # Load trained ML model
 model = joblib.load("model.pkl")
 
-
-def extract_features(url):
-    return [
-        len(url),
-        url.count('.'),
-        int("@" in url),
-        int(bool(re.search(r"(\d{1,3}\.){3}\d{1,3}", url))),
-        sum(keyword in url.lower() for keyword in [
-            "login", "verify", "update", "secure",
-            "bank", "account", "confirm", "password"
-        ])
-    ]
 
 
 @app.route("/check-url", methods=["POST"])
