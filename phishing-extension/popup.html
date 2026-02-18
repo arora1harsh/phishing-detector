@@ -4,17 +4,26 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h3>AI Phishing Detector</h3>
-  <p id="domain"></p>
-  <div id="risk"></div>
-  <div class="bar">
-    <div id="progress"></div>
-    <button id="markSafe">Mark as Safe</button>
-    <button id="markPhishing">Report Phishing</button>
-    <p id="feedbackStatus"></p>
+  <div class="container">
+    <h2>🛡 AI Phishing Guard</h2>
+    <p id="domain"></p>
 
+    <div id="statusBox" class="statusBox">
+      <p id="risk"></p>
+      <div class="bar">
+        <div id="progress"></div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="markSafe" class="safeBtn">Trust This Site</button>
+      <button id="markPhishing" class="phishBtn">Report Phishing</button>
+    </div>
+
+    <p id="feedbackStatus"></p>
   </div>
 
   <script src="popup.js"></script>
 </body>
 </html>
+
