@@ -23,7 +23,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-8 text-blue-400">
         AI Phishing Detection System
       </h1>
@@ -45,11 +45,26 @@ function App() {
         </button>
 
         {result && (
-          <div className="mt-6 text-center">
-            <p className="text-lg">
+          <div className="mt-6 w-full">
+            <p className="text-lg text-center mb-2">
               Phishing Probability: {result.phishing_probability}%
             </p>
-            <p className="text-xl font-bold mt-2">
+
+            {/* Risk Bar */}
+            <div className="w-full bg-gray-700 rounded-full h-6 overflow-hidden">
+              <div
+                className={`h-6 transition-all duration-700 ${
+                  result.phishing_probability < 30
+                    ? "bg-green-500"
+                    : result.phishing_probability < 70
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
+                }`}
+                style={{ width: `${result.phishing_probability}%` }}
+              ></div>
+            </div>
+
+            <p className="text-xl font-bold text-center mt-4">
               Verdict:
               <span
                 className={
@@ -63,6 +78,7 @@ function App() {
             </p>
           </div>
         )}
+
 
       </div>
     </div>
