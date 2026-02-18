@@ -4,25 +4,26 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
+from urllib.parse import urlparse
+
 
 # Load dataset
 df = pd.read_csv("URL_dataset.csv")
 
-
 def normalize_url(url):
-    url = url.lower().strip()
+    try:
+        url = str(url).lower().strip()
+        parsed = urlparse(url)
+        domain = parsed.netloc
 
-    if url.startswith("http://"):
-        url = url[7:]
-    if url.startswith("https://"):
-        url = url[8:]
-    if url.startswith("www."):
-        url = url[4:]
+        if domain.startswith("www."):
+            domain = domain[4:]
 
-    if url.endswith("/"):
-        url = url[:-1]
+        return domain
 
-    return url
+    except Exception:
+        return ""   # return empty string if malformed
+
 
 df = pd.read_csv("URL_dataset.csv")
 

@@ -3,6 +3,7 @@ from flask_cors import CORS
 import re
 import joblib
 from feature_extractor import extract_features
+from urllib.parse import urlparse
 
 
 app = Flask(__name__)
@@ -16,17 +17,14 @@ vectorizer = joblib.load("vectorizer.pkl")
 def normalize_url(url):
     url = url.lower().strip()
 
-    if url.startswith("http://"):
-        url = url[7:]
-    if url.startswith("https://"):
-        url = url[8:]
-    if url.startswith("www."):
-        url = url[4:]
+    parsed = urlparse(url)
 
-    if url.endswith("/"):
-        url = url[:-1]
+    domain = parsed.netloc
 
-    return url
+    if domain.startswith("www."):
+        domain = domain[4:]
+
+    return domain
 
 
 @app.route("/check-url", methods=["POST"])
@@ -39,7 +37,7 @@ def check_url():
         return jsonify({"error": "No URL provided"}), 400
 
     features = [extract_features(url)]
-    
+
     normalized = normalize_url(url)
     url_vector = vectorizer.transform([normalized])
     prediction = model.predict(url_vector)[0]

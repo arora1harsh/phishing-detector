@@ -10,4 +10,4 @@ frontend/dist/
 # Misc
 .env
 backend/model.pkl
-
+backend/vectorizer.pkl
