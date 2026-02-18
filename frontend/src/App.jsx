@@ -46,7 +46,9 @@ function App() {
 
         {result && (
           <div className="mt-6 text-center">
-            <p className="text-lg">Risk Score: {result.risk_score}</p>
+            <p className="text-lg">
+              Phishing Probability: {result.phishing_probability}%
+            </p>
             <p className="text-xl font-bold mt-2">
               Verdict:
               <span
@@ -61,6 +63,7 @@ function App() {
             </p>
           </div>
         )}
+
       </div>
     </div>
   );

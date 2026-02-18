@@ -9,3 +9,5 @@ frontend/dist/
 
 # Misc
 .env
+backend/model.pkl
+
